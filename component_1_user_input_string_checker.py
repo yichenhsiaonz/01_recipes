@@ -1,17 +1,15 @@
-def string_check(string, condition):
+def string_check(string):
     global valid
     if len(string) <= 5:
         if string in valid_list:
-            valid = 0
-            return valid
+            return "valid"
         else:
-            valid = 1
-            return valid
+            return "invalid"
     else:
-        valid = 0
-        return valid
+        return "valid"
 
 valid_list = ["sugar"]
 valid = 1
 while valid == 1:
-    string_check
+    text = input("Enter a string ")
+    print(string_check(text))
