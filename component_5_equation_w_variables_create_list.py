@@ -7,3 +7,11 @@ unit_dictionary = {
     "quart": 30,
     "pound": 30,
 }
+
+amount = float(eval(input("How much? ")))
+unit = input("Unit? ")
+if unit in unit_dictionary:
+    amount *= unit_dictionary.get(unit)
+    print("Amount in ml:", amount)
+else:
+    print(amount, "is unchanged")
