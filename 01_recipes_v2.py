@@ -1,11 +1,11 @@
 import csv
 
 
-def number_check(question):
+def number_check():
     loop3 = 1
     while loop3 == 1:
         try:
-            num = float(input(question))
+            num = float(input("Enter number"))
             if num > 0:
                 return num
             else:
@@ -76,16 +76,20 @@ ratio = 1
 
 loop2 = 1
 while loop2 != "yes":
-    number = number_check("Enter original serving size ")
-    number2 = number_check("Enter desired serving size ")
-    ratio = number2/number
-    if ratio < 0.25:
-        print("warning scale factor =", ratio, "(<0.25). Measurements")
-    elif ratio > 4:
-        print("warning scale factor =", ratio, "(>4)")
-    else:
-        print("scale factor =", ratio)
-    loop2 = input("Please enter <yes> if you are okay with this: ").lower()
+    try:
+        number = float(input("Enter original serving size "))
+        number2 = float(input("Enter desired serving size "))
+        loop2 = 2
+        ratio = number2/number
+        if ratio < 0.25:
+            print("warning scale factor =", ratio, "(<0.25). Measurements")
+        elif ratio > 4:
+            print("warning scale factor =", ratio, "(>4)")
+        else:
+            print("scale factor =", ratio)
+        loop2 = input("Please enter <yes> if you are okay with this: ").lower()
+    except ValueError:
+        print("Please enter an integer or a float")
 
 ing_list = []
 list_items = 0
@@ -122,5 +126,6 @@ for x in range(list_items):
         unit = "ml"
     if unit == "ml" and name in food_dictionary:
         unit = "g"
-        amount *= ratio * (float(food_dictionary.get(ing_list[3 * x])) / 250)
+        amount *= (float(food_dictionary.get(ing_list[3 * x])) / 250)
+    amount *= ratio
     print("{}: {:.1f}{}".format(name, amount, unit))
