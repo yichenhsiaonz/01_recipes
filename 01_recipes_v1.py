@@ -55,15 +55,16 @@ unit_dictionary = {
     "litre": 1000
 }
 
-teaspoon =["tsp", "teaspoon", "t", "teaspoons"]
-tablespoon = ["tbs", "tablespoon", "T", "tbsp", "tablespoons"]
-ounce = ["oz", "ounce", "fl oz", "ounces"]
-cup = ["c", "cup", "cups"]
-pint = ["p", "pt", "fl pt", "pint", "pints"]
-quart = ["q", "qt", "fl qt", "quart", "quarts"]
+tsp = ["tsp", "teaspoon", "t", "teaspoons"]
+tbs = ["tbs", "tablespoon", "T", "tbsp", "tablespoons"]
+ounce = ["ounce", "oz",  "fl oz", "ounces"]
+cup = ["cup", "c", "cups"]
+pint = ["pint", "p", "pt", "fl pt", "pints"]
+quart = ["quart", "q", "qt", "fl qt", "quarts"]
 pound = ["pound", "lb", "#", "pounds"]
-mls = ["ml", "milliliter", "millilitre", "milliliters", "millilitres"]
+ml = ["ml", "milliliter", "millilitre", "milliliters", "millilitres"]
 litre = ["litre", "liter", "l", "litres", "liters"]
+unit_list = [tsp, tbs, ounce, cup, pint, quart, pound, ml, litre]
 
 allowed_list = ["1", "2", "3", "4,", "5", "6", "7", "8", "9", "0", "+", "-", "*", "/", "."]
 
@@ -86,7 +87,7 @@ while loop2 != "yes":
             print("warning scale factor =", ratio, "(>4)")
         else:
             print("scale factor =", ratio)
-        loop2 = input("Please enter <yes> if you are okay with this ").lower()
+        loop2 = input("Please enter <yes> if you are okay with this: ").lower()
     except ValueError:
         print("Please enter an integer or a float")
 
@@ -97,22 +98,12 @@ while loop == "":
 
     ing_list.append(string_check("Please enter the name of ingredient: ", 1))
     unit = string_check("Please enter the unit for this ingredient: ", 1)
-    if unit in teaspoon:
-        unit = "tsp"
-    elif unit in tablespoon:
-        unit = "tbs"
-    elif unit in ounce:
-        unit = "ounce"
-    elif unit in pint:
-        unit = "pint"
-    elif unit in quart:
-        unit = "quart"
-    elif unit in pound:
-        unit = "pound"
-    elif unit in mls:
-        unit = "ml"
-    elif unit in litre:
-        unit = "litre"
+
+    list_num = 0
+    for y in unit_list:
+        if unit in y:
+            unit = y[0]
+        list_num += 1
 
     ing_list.append(unit)
     ing_list.append(eval(string_check("Please enter the amount of this ingredient: ", 2)))
