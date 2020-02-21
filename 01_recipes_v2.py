@@ -46,7 +46,7 @@ def string_check(question, condition):
                 if text == "T":
                     return text
 
-                    # returns text in lower case to keep code simple
+            # returns text in lower case to keep code simple
 
                 else:
                     return text.lower()
@@ -90,7 +90,7 @@ unit_dictionary = {
 
 tsp = ["tsp", "teaspoon", "t", "teaspoons"]
 tbs = ["tbs", "tablespoon", "T", "tbsp", "tablespoons"]
-ounce = ["ounce", "oz", "fl oz", "ounces"]
+ounce = ["ounce", "oz",  "fl oz", "ounces"]
 cup = ["cup", "c", "cups"]
 pint = ["pint", "p", "pt", "fl pt", "pints"]
 quart = ["quart", "q", "qt", "fl qt", "quarts"]
@@ -101,13 +101,15 @@ unit_list = [tsp, tbs, ounce, cup, pint, quart, pound, ml, litre]
 
 # list of valid inputs for an equation for use in function above
 
-allowed_list = ["1", "2", "3", "4,", "5", "6", "7", "8", "9", "0", "+", "-", "*", "/", "."]
+# changed to regular expression
+allowed_list = [[0-9], "+", "-", "*", "/", "."]
 
 # allows user to input non blank values for recipe and source for use in header when printing updated ingredient list
-
 recipe_name = string_check("Please enter the name of the recipe: ", 1)
 
 recipe_source = string_check("Please enter the website the recipe is from: ", 1)
+
+print()
 
 # Setting scale factor to 1 even though it is redefined without usage below because pycharm gets mad at me for no reason
 
@@ -115,21 +117,24 @@ ratio = 1
 
 # loops for two serving sizes until user is okay with scale factor
 
+print("Please enter the serving size indicated in the recipe and your desired serving size. The amounts of ingredients "
+      "in the recipe will be adjusted to fit the desired serving size")
+
 loop2 = 1
 while loop2 != "yes":
     number = number_check("Enter original serving size ")
     number2 = number_check("Enter desired serving size ")
-    ratio = number2 / number
+    ratio = number2/number
 
     # warns user if the ratio is below 0.25 or above 4
 
     if ratio < 0.25:
-        print("warning scale factor =", ratio, "(<0.25). Measurements")
+        print("warning scale factor = x{} (<0.25)".format(ratio))
     elif ratio > 4:
-        print("warning scale factor =", ratio, "(>4)")
+        print("warning scale factor = x {} (>4)".format(ratio))
     else:
         print("scale factor =", ratio)
-    loop2 = input("Please enter <yes> if you are okay with this: ").lower()
+    loop2 = input("Please press <enter> if you are okay with this or press any key to re-enter serving sizes: ").lower()
 
 # loops adding ingredients, units, and amounts to empty list until user ends program
 
@@ -165,9 +170,11 @@ while loop == "":
 
 # prints recipe information from earlier as header
 
+print()
 print(recipe_name)
 print("from", recipe_source)
 print("scaled by", ratio)
+print()
 
 # loops the same number of times as the number of ingredients
 
@@ -192,7 +199,11 @@ for x in range(list_items):
 
     if unit == "ml" and name in food_dictionary:
         unit = "g"
-        amount *= ratio * (float(food_dictionary.get(ing_list[3 * x])) / 250)
+        amount *= (float(food_dictionary.get(ing_list[3 * x])) / 250)
+
+    # multiplies amount by scale factor
+
+    amount *= ratio
 
     # prints ingredient name: , amount, unit
 
