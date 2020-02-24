@@ -1,65 +1,46 @@
 import csv
 
 
-def number_check(question):
-    loop3 = 1
-    while loop3 == 1:
-        try:
-
-            # only allows numbers above 0
-
-            num = float(input(question))
-            if num > 0:
-                return num
-
-            # prints error for anything below 0 or not a number
-
-            else:
-
-                print("Please enter a valid integer float")
-
-        except ValueError:
-
-            print("Please enter a valid integer or float")
-
-
 def string_check(question, condition):
-    global allowed_list
-    loop4 = 1
-    while loop4 == 1:
-        text = input(question)
-        valid = "TRUE"
+    string_check_loop = 1
+    while string_check_loop == 1:
+        try:
+            text = input(question)
+            valid = "TRUE"
 
-        # does not allow blank answers
+            # does not allow blank answers
 
-        if len(text) > 0:
+            if len(text) > 0:
 
-            # condition 2 only allows for characters that can go into an equation (0-9, +, -, *, ?)
+                # condition 2 only allows for characters that can go into an equation (0-9, +, -, *, ?)
 
-            if condition == 2:
-                if any(num not in allowed_list for num in text):
-                    valid = "FALSE"
+                if condition == 2:
+                    return eval(text)
+                if valid == "TRUE":
+
+                    # allows "T" as an input for tbs
+
+                    if text == "T":
+                        return text
+
+                # returns text in lower case to keep code simple
+
+                    else:
+                        return text.lower()
+
+            # prints error if answer is blank
+
             if valid == "TRUE":
+                error = "!!Please enter something!!"
+                print("\n{}\n{}\n{}\n".format("!"*len(error), error, "!"*len(error)))
+            # prints error if an invalid character is inputted
+        except(ValueError, SyntaxError, NameError):
 
-                # allows "T" as an input for tbs
+            # error message only needed for these three because the only errors that should be raised would be
+            # from eval()
 
-                if text == "T":
-                    return text
-
-            # returns text in lower case to keep code simple
-
-                else:
-                    return text.lower()
-
-        # prints error if answer is blank
-
-        if valid == "TRUE":
-            print("Please enter something")
-
-        # prints error if condition = 2 and an invalid character is inputted
-
-        else:
-            print("Please enter a float, integer, or equation")
+            error = "!!Please enter a number or equation!!"
+            print("\n{}\n{}\n{}\n".format("!" * len(error), error, "!" * len(error)))
 
 
 # creates empty dictionary and adds rows from "01_ingredients_ml_to_g.csv" to it
@@ -75,41 +56,47 @@ for row in csv_groceries:
 
 # dictionary of units of volume and how many mLs they represent
 
+# dictionary now properly converts mass to grams and volume to milliliters
+
 unit_dictionary = {
-    "tsp": 5,
-    "tbs": 15,
-    "cup": 237,
-    "ounce": 30,
-    "pint": 473,
-    "quart": 946,
-    "pound": 454,
-    "litre": 1000
+    "tsp": [5, "ml"],
+    "tbs": [15, "ml"],
+    "cup": [237, "ml"],
+    "ounce": [28, "g"],
+    "fluid ounce": [30, "ml"],
+    "pint": [473, "ml"],
+    "quart": [946, "ml"],
+    "pound": [454, "g"],
+    "litre": [1000, "ml"]
 }
 
 # lists of alternative ways of spelling units to allow some flexibility in input
 
+# separated fluid ounces and ounces
+
 tsp = ["tsp", "teaspoon", "t", "teaspoons"]
 tbs = ["tbs", "tablespoon", "T", "tbsp", "tablespoons"]
-ounce = ["ounce", "oz",  "fl oz", "ounces"]
+ounce = ["ounce", "oz", "ounces"]
+fluid_ounce = ["fluid ounce", "fluid ounces", "fl oz"]
 cup = ["cup", "c", "cups"]
 pint = ["pint", "p", "pt", "fl pt", "pints"]
 quart = ["quart", "q", "qt", "fl qt", "quarts"]
 pound = ["pound", "lb", "#", "pounds"]
 ml = ["ml", "milliliter", "millilitre", "milliliters", "millilitres"]
 litre = ["litre", "liter", "l", "litres", "liters"]
-unit_list = [tsp, tbs, ounce, cup, pint, quart, pound, ml, litre]
+unit_list = [tsp, tbs, ounce, fluid_ounce, cup, pint, quart, pound, ml, litre]
 
 # list of valid inputs for an equation for use in function above
 
-# changed to regular expression
-allowed_list = [[0-9], "+", "-", "*", "/", "."]
-
+# removed in favour of except
+border = "-------------------------------------------------------------------------------------------------------------"
+print(border, "\n")
+print("This programs takes the ingredients of recipes measured in imperial units and converts them to metric")
+print("\n{}\n".format(border))
 # allows user to input non blank values for recipe and source for use in header when printing updated ingredient list
 recipe_name = string_check("Please enter the name of the recipe: ", 1)
 
 recipe_source = string_check("Please enter the website the recipe is from: ", 1)
-
-print()
 
 # Setting scale factor to 1 even though it is redefined without usage below because pycharm gets mad at me for no reason
 
@@ -117,34 +104,47 @@ ratio = 1
 
 # loops for two serving sizes until user is okay with scale factor
 
-print("Please enter the serving size indicated in the recipe and your desired serving size. The amounts of ingredients "
-      "in the recipe will be adjusted to fit the desired serving size")
+print("\n{}\n".format(border))
+print("Please enter the serving size indicated in the recipe and your desired serving size.\n"
+      "The amounts of ingredients in the recipe will be adjusted to fit the desired serving size")
+print("\n{}\n".format(border))
 
-loop2 = 1
-while loop2 != "yes":
-    number = number_check("Enter original serving size ")
-    number2 = number_check("Enter desired serving size ")
+serving_size_loop = "1"
+while serving_size_loop != "":
+    print()
+    number = string_check("Enter original serving size ", 2)
+    number2 = string_check("Enter desired serving size ", 2)
     ratio = number2/number
 
     # warns user if the ratio is below 0.25 or above 4
 
     if ratio < 0.25:
-        print("warning scale factor = x{} (<0.25)".format(ratio))
+        print("\nwarning scale factor = x{} (<0.25)\n".format(ratio))
     elif ratio > 4:
-        print("warning scale factor = x {} (>4)".format(ratio))
+        print("\nwarning scale factor = x{} (>4)\n".format(ratio))
     else:
-        print("scale factor =", ratio)
-    loop2 = input("Please press <enter> if you are okay with this or press any key to re-enter serving sizes: ").lower()
+        print("\nscale factor = {}\n".format(ratio))
+    serving_size_loop = input("Please press <enter> if you are okay with this or press any key to re-enter serving "
+                              "sizes: ")
 
 # loops adding ingredients, units, and amounts to empty list until user ends program
 
+print("\n{}\n".format(border))
+print("Please list the ingredients listed in the original recipe.\n"
+      "Applicable units of volume will be converted to millilitres and units of mass will be converted to grams.\n"
+      "If the ingredient is either originally measured in mL or converted to mL and is in the list of ingredients,\n"
+      "it will be converted into grams")
+print()
+print("Please keep in mind that fluid ounces and ounces are separate units")
+print("\n{}".format(border))
 ing_list = []
 list_items = 0
-loop = ""
-while loop == "":
+ing_list_loop = ""
+while ing_list_loop == "":
 
     # adds name of ingredient to the list
 
+    print()
     ing_list.append(string_check("Please enter the name of the ingredient: ", 1))
     unit = string_check("Please enter the unit this ingredient is measured in in the original recipe : ", 1)
 
@@ -160,21 +160,22 @@ while loop == "":
     # adds unit and amount to list
 
     ing_list.append(unit)
-    ing_list.append(eval(string_check("Please enter the amount of this ingredient: ", 2)))
+    ing_list.append(string_check("Please enter the amount of this ingredient: ", 2))
+    print()
 
     # adds 1 to the total number of ingredients
 
     list_items += 1
 
-    loop = input("press <enter> to continue adding ingredients or press any button to stop")
+    ing_list_loop = input("press <enter> to continue adding ingredients or press any button to stop: ")
 
 # prints recipe information from earlier as header
 
-print()
+print("\n{}\n".format(border))
 print(recipe_name)
 print("from", recipe_source)
 print("scaled by", ratio)
-print()
+print("\n{}\n\nIngredients:\n".format(border))
 
 # loops the same number of times as the number of ingredients
 
@@ -192,8 +193,8 @@ for x in range(list_items):
 
     if unit in unit_dictionary:
         ing_list[1 + 3 * x] = "ml"
-        amount = ing_list[2 + 3 * x] * float(unit_dictionary.get(unit))
-        unit = "ml"
+        amount = ing_list[2 + 3 * x] * float(unit_dictionary.get(unit)[0])
+        unit = unit_dictionary.get(unit)[1]
 
     # if the unit is converted to ml and the name is in the food dictionary, it is converted to grams
 
