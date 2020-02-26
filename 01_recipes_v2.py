@@ -55,7 +55,6 @@ for row in csv_groceries:
     food_dictionary[row[0]] = row[1]
 
 # dictionary of units of volume and how many mLs they represent
-
 # dictionary now properly converts mass to grams and volume to milliliters
 
 unit_dictionary = {
@@ -71,7 +70,6 @@ unit_dictionary = {
 }
 
 # lists of alternative ways of spelling units to allow some flexibility in input
-
 # separated fluid ounces and ounces
 
 tsp = ["tsp", "teaspoon", "t", "teaspoons"]
@@ -87,13 +85,13 @@ litre = ["litre", "liter", "l", "litres", "liters"]
 unit_list = [tsp, tbs, ounce, fluid_ounce, cup, pint, quart, pound, ml, litre]
 
 # list of valid inputs for an equation for use in function above
-
 # removed in favour of except
-border = "-------------------------------------------------------------------------------------------------------------"
+
+border = "-"*109
 print(border, "\n")
 print("This programs takes the ingredients of recipes measured in imperial units and converts them to metric")
 print("\n{}\n".format(border))
-# allows user to input non blank values for recipe and source for use in header when printing updated ingredient list
+# allows user to input non-blank values for recipe and source for use in header when printing updated ingredient list
 recipe_name = string_check("Please enter the name of the recipe: ", 1)
 
 recipe_source = string_check("Please enter the website the recipe is from: ", 1)
@@ -112,8 +110,8 @@ print("\n{}\n".format(border))
 serving_size_loop = "1"
 while serving_size_loop != "":
     print()
-    number = string_check("Enter original serving size ", 2)
-    number2 = string_check("Enter desired serving size ", 2)
+    number = string_check("Enter original serving size: ", 2)
+    number2 = string_check("Enter desired serving size: ", 2)
     ratio = number2/number
 
     # warns user if the ratio is below 0.25 or above 4
@@ -131,6 +129,8 @@ while serving_size_loop != "":
 
 print("\n{}\n".format(border))
 print("Please list the ingredients listed in the original recipe.\n"
+      "For each ingredient, you will be asked for it's name, unit it is measured in,\n"
+      "and the amount of the ingredient in said unit\n\n"
       "Applicable units of volume will be converted to millilitres and units of mass will be converted to grams.\n"
       "If the ingredient is either originally measured in mL or converted to mL and is in the list of ingredients,\n"
       "it will be converted into grams")
