@@ -176,27 +176,31 @@ while ing_list_loop == "":
             if x == "":
                 raise ValueError
 
+        # removes whitespace from front and back of ingredient name entered
+
+        temp_name = temp_ing_list[2].strip()
+
         # removes white space from front and back of unit entered
         # iterates through the list of lists of alternate spellings and if found, sets the unit to the spelling
         # that works with the dictionary of units
-        # adds it to ing_list
 
-        ing_list.append(temp_ing_list[2].strip())
+        temp_unit = temp_ing_list[1].strip()
         for y in unit_list:
-            if temp_ing_list[1] in y:
+            if temp_unit in y:
                 temp_ing_list[1] = y[0]
                 break
-
-        # removes whitespace from front and back of ingredient name entered
-        # adds it to ing_list
-
-        ing_list.append(temp_ing_list[1].strip())
 
         # replaces all whitespace in number / equation entered with + to allow inputs like 1 1/2 (one and a half)
         # any error raised if eval() doesn't work will be caught by except and will repeat the loop without adding
         # to the total number of ingredients
 
-        ing_list.append(eval(temp_ing_list[0].replace(" ", "+")))
+        temp_amount = eval(temp_ing_list[0].replace(" ", "+"))
+
+        # adds to ing_list
+
+        ing_list.append(temp_name)
+        ing_list.append(temp_unit)
+        ing_list.append(temp_amount)
 
         # adds 1 to the total number of ingredients
 
@@ -230,7 +234,7 @@ for x in range(list_items):
 
     if unit in unit_dictionary:
         ing_list[1 + 3 * x] = "ml"
-        amount = ing_list[2 + 3 * x] * float(unit_dictionary.get(unit)[0])
+        amount = float(amount) * float(unit_dictionary.get(unit)[0])
         unit = unit_dictionary.get(unit)[1]
     else:
 
