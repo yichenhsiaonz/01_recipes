@@ -169,12 +169,9 @@ while ing_list_loop == "":
         if len(re.findall(",", ing_line)) > 2:
             raise ValueError
 
-        # splits input into three at every comma, raises an error if it is blank
+        # splits input into three at every comma
 
         temp_ing_list = re.split(",", ing_line, 3)
-        for x in temp_ing_list:
-            if x == "":
-                raise ValueError
 
         # removes whitespace from front and back of ingredient name entered
 
@@ -195,6 +192,12 @@ while ing_list_loop == "":
         # to the total number of ingredients
 
         temp_amount = eval(temp_ing_list[0].replace(" ", "+"))
+
+        # raises an error if entries are blank
+
+        for x in temp_ing_list:
+            if x == "" or x == " ":
+                raise ValueError
 
         # adds to ing_list
 
