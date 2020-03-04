@@ -1,5 +1,16 @@
 import csv
 import re
+import string
+
+
+# safer eval() from stack overflow
+
+def less_dangerous_eval(equation):
+    if not set(equation).intersection(string.ascii_letters + '{}[]_;\n'):
+        return eval(equation)
+    else:
+        print("illegal character")
+        return None
 
 
 def string_check(question, condition):
@@ -16,7 +27,10 @@ def string_check(question, condition):
                 # condition 2 only allows for characters that can go into an equation (0-9, +, -, *, ?)
 
                 if condition == 2:
-                    return eval(text)
+                    if less_dangerous_eval(text) is None:
+                        raise ValueError
+                    else:
+                        return less_dangerous_eval(text)
                 if valid == "TRUE":
 
                     # allows "T" as an input for tbs
@@ -191,7 +205,7 @@ while ing_list_loop == "":
         # any error raised if eval() doesn't work will be caught by except and will repeat the loop without adding
         # to the total number of ingredients
 
-        temp_amount = eval(temp_ing_list[0].replace(" ", "+"))
+        temp_amount = less_dangerous_eval(temp_ing_list[0].replace(" ", "+"))
 
         # raises an error if entries are blank
 
@@ -209,7 +223,7 @@ while ing_list_loop == "":
 
         list_items += 1
 
-    except:
+    except(ValueError, SyntaxError, NameError):
         error_msg("!!please enter a number or equation first!!")
 
 # prints recipe information from earlier as header
