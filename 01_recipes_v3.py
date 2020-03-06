@@ -3,13 +3,13 @@ import re
 import string
 
 
-# safer eval() from stack overflow
+# safer eval() from stack overflow that prevents eval() from running code
 
 def less_dangerous_eval(equation):
     if not set(equation).intersection(string.ascii_letters + '{}[]_;\n'):
         return eval(equation)
     else:
-        print("illegal character")
+        error_msg("!!Illegal character!!")
         return None
 
 
@@ -17,12 +17,12 @@ def string_check(question, condition):
     string_check_loop = 1
     while string_check_loop == 1:
         try:
-            text = input(question)
+            text = input(question).strip()
             valid = "TRUE"
 
-            # does not allow blank answers
+            # does not allow blank answers, including just spaces
 
-            if len(text) > 0:
+            if text is not "" and text is not " ":
 
                 # condition 2 only allows for characters that can go into an equation (0-9, +, -, *, ?)
 
@@ -162,8 +162,10 @@ print("Please list the ingredients listed in the original recipe.\n"
       "Applicable units of volume will be converted to millilitres and units of mass will be converted to grams.\n"
       "If the ingredient is either originally measured in mL or converted to mL and is in the list of ingredients,\n"
       "it will be converted into grams.\n"
-      "\nPlease keep in mind that fluid ounces and ounces are separate units"
-      "\n\nYou can end the loop by typing \"xxx\"")
+      "\nPlease keep in mind that fluid ounces and ounces are separate units\n"
+      "\nPlease enter an ingredient listed in the recipe in the order of amount, unit, then name\n"
+      "E.g: 1, cup, flour\n"
+      "\nYou can end the loop by typing \"xxx\"")
 border()
 ing_list = []
 list_items = 0
@@ -223,8 +225,12 @@ while ing_list_loop == "":
 
         list_items += 1
 
+        print()
+
     except(ValueError, SyntaxError, NameError):
-        error_msg("!!please enter a number or equation first!!")
+        error_msg("!!Please follow the instructions above!!")
+    except IndexError:
+        error_msg("!!Please enter an amount, unit, and name!!")
 
 # prints recipe information from earlier as header
 
