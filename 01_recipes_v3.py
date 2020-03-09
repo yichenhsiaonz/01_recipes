@@ -17,7 +17,7 @@ def string_check(question, condition):
     string_check_loop = 1
     while string_check_loop == 1:
         try:
-            text = input(question).strip()
+            text = input(question).strip().replace(" ", "+").replace("^", "**")
             valid = "TRUE"
 
             # does not allow blank answers, including just spaces
@@ -207,7 +207,7 @@ while ing_list_loop == "":
         # any error raised if eval() doesn't work will be caught by except and will repeat the loop without adding
         # to the total number of ingredients
 
-        temp_amount = less_dangerous_eval(temp_ing_list[0].replace(" ", "+"))
+        temp_amount = less_dangerous_eval(temp_ing_list[0].replace(" ", "+").replace("^", "**"))
 
         # raises an error if entries are blank
 
