@@ -1,3 +1,6 @@
+# Component 4.
+
+
 def number_check():
     loop = 1
     while loop ==1:

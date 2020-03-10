@@ -1,3 +1,6 @@
+# Component 7.
+
+
 def string_check(condition):
     loop1 = 1
     while loop1 == 1:

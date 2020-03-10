@@ -1,3 +1,6 @@
+# Component 3.
+
+
 def equation():
     loop2 = 1
     while loop2 == 1:

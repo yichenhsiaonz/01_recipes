@@ -1,3 +1,5 @@
+# Component 9 and 10.
+
 import csv
 
 groceries = open("01_ingredients_ml_to_g.csv")

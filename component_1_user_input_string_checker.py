@@ -1,3 +1,6 @@
+# Components 1, 2, 5, and 6.
+
+
 def string_check(string):
     global valid
     if len(string) <= 5:
