@@ -163,8 +163,8 @@ print("Please list the ingredients listed in the original recipe.\n"
       "If the ingredient is either originally measured in mL or converted to mL and is in the list of ingredients,\n"
       "it will be converted into grams.\n"
       "\nPlease keep in mind that fluid ounces and ounces are separate units\n"
-      "\nPlease enter an ingredient listed in the recipe in the order of amount, unit, then name\n"
-      "E.g: 1, cup, flour\n"
+      "\nPlease enter an ingredient listed in the recipe in the order of amount, unit, then name, "
+      "separated by commas.\nE.g: 1, cup, flour\n"
       "\nYou can end the loop by typing \"xxx\"")
 border()
 ing_list = []
