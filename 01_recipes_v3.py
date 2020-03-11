@@ -22,7 +22,7 @@ def string_check(question, condition):
 
             # does not allow blank answers, including just spaces
 
-            if text is not "" and text is not " ":
+            if text != "" and text != " ":
 
                 # condition 2 only allows for characters that can go into an equation (0-9, +, -, *, ?)
 
