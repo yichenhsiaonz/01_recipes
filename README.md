@@ -1,4 +1,4 @@
 # 01_recipes
 Recipe Moderniser\
 High School class project.\
-Converts common recipe measurements to metric.
+Python text based program that accepts a recipie and converts common measurements to metric.
